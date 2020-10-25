@@ -7,18 +7,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: <Widget>[
-      SizedBox(
-          width: double.infinity,
-          height: 200,
-          child: SvgPicture.asset("assets/wave.svg")),
-      Padding(
-        padding: const EdgeInsets.only(top: 20),
-      ),
-      PhotoCardView(),
-      Padding(
-        padding: const EdgeInsets.only(top: 100),
-      ),
-      GoogleLogInCardView(),
+      Expanded(
+          flex: 3,
+          child: SvgPicture.asset(
+            "assets/wave.svg",
+            fit: BoxFit.fitWidth,
+          )),
+      Expanded(flex: 4, child: Center(child: PhotoCardView())),
+      Expanded(flex: 3, child: Center(child: GoogleLogInCardView())),
     ]);
   }
 }
