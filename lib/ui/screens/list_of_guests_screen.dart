@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weddings_seats/ui/views/event_guests_status_view.dart';
 
 class ListOfGuests extends StatefulWidget {
   @override
@@ -9,16 +10,11 @@ class ListOfGuests extends StatefulWidget {
 class _ListOfGuestsState extends State<ListOfGuests> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      child: Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("List of guests"),
-            Icon(Icons.add),
-          ],
-        ),
+    return SafeArea(
+      child: Column(
+        children: [
+          EventGuestsStatusView(),
+        ],
       ),
     );
   }
