@@ -11,6 +11,7 @@ class EventOverviewScreen extends StatefulWidget {
 
 class _EventOverviewScreenState extends State<EventOverviewScreen> {
   var bottomItemType = BottomItemType.values[0];
+  var title = "Wedding Seats";
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,16 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
           bottomItemType = type;
         });
       },
+      (String newTitle) {
+        setState(() {
+          title = newTitle;
+        });
+      },
       child: Scaffold(
+        appBar: AppBar(
+          title: Text(title),
+          backgroundColor: Themes.LightPrimaryColor,
+        ),
         body: ScreenNavigationWrapper(bottomItemType),
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(

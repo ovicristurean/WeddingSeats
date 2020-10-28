@@ -1,13 +1,26 @@
 import 'package:weddings_seats/dto/guests_dto.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
+import 'package:weddings_seats/repository/mock_utils.dart';
 
 class GuestRepository implements GuestDataSource {
   @override
-  Future<GuestsDto> requestGuests() async {
-    GuestDto dto1 = GuestDto(1, "Ovidiu", "url1");
-    GuestDto dto2 = GuestDto(2, "Ioana", "url2");
-    GuestDto dto3 = GuestDto(3, "Bogdan", "url3");
+  Future<GuestsDto> requestGuests(GuestStatus guestStatus) async {
+    switch (guestStatus) {
+      case GuestStatus.NOT_YET_INVITED:
+        return GuestsDto(MockUtils.getNotYetInvitedGuests());
+      case GuestStatus.PENDING:
+        return GuestsDto(MockUtils.getPendingGuests());
+      case GuestStatus.CONFIRMED:
+        return GuestsDto(MockUtils.getConfirmedGuests());
+    }
+  }
 
-    return GuestsDto([dto1, dto2, dto3]);
+  @override
+  Future<Map<GuestStatus, int>> requestNumberOfGuests() async {
+    return {
+      GuestStatus.NOT_YET_INVITED: MockUtils.getNotYetInvitedGuests().length,
+      GuestStatus.PENDING: MockUtils.getPendingGuests().length,
+      GuestStatus.CONFIRMED: MockUtils.getConfirmedGuests().length
+    };
   }
 }

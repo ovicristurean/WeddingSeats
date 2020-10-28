@@ -30,7 +30,7 @@ class BottomNavigationState extends State<BottomNavigationMenu> {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.event_seat),
-          label: 'Seats',
+          label: 'Tables',
         ),
       ],
       currentIndex: _selectedIndex,

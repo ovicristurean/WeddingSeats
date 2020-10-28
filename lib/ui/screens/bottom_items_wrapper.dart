@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weddings_seats/ui/screens/event_home_screen.dart';
 import 'package:weddings_seats/ui/screens/list_of_guests_screen.dart';
-import 'package:weddings_seats/ui/screens/seats_screen.dart';
+import 'package:weddings_seats/ui/screens/list_of_tables_screen.dart';
 
 enum BottomItemType { HOME, GUESTS, SEATS }
 

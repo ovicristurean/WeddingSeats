@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:weddings_seats/util/themes.dart';
 
 class EventHomeScreen extends StatefulWidget {
   @override
@@ -8,8 +9,15 @@ class EventHomeScreen extends StatefulWidget {
 class _EventHomeScreenState extends State<EventHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Event home screen"),
+    return Container(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Themes.PrimaryColor, Themes.DarkPrimaryColor])),
+      child: Center(
+        child: Text("Event home screen"),
+      ),
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:weddings_seats/model/guest_model.dart';
+
 
 class GuestsDto {
   List<GuestDto> guests;
@@ -11,5 +11,5 @@ class GuestDto {
   String name;
   String photoUrl;
 
-  GuestDto(int id, String name, String photoUrl);
+  GuestDto(this.id, this.name, this.photoUrl);
 }

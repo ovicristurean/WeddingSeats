@@ -14,17 +14,17 @@ class Themes {
     900: Color(0xffffffff),
   });
 
-  static const DarkPrimaryColor = MaterialColor(0xff08080D, {
-    50: Color(0xff08080D),
-    100: Color(0xff08080D),
-    200: Color(0xff08080D),
-    300: Color(0xff08080D),
-    400: Color(0xff08080D),
-    500: Color(0xff08080D),
-    600: Color(0xff08080D),
-    700: Color(0xff08080D),
-    800: Color(0xff08080D),
-    900: Color(0xff08080D),
+  static const DarkPrimaryColor = MaterialColor(0xffBFC0C0, {
+    50: Color(0xffBFC0C0),
+    100: Color(0xffBFC0C0),
+    200: Color(0xffBFC0C0),
+    300: Color(0xffBFC0C0),
+    400: Color(0xffBFC0C0),
+    500: Color(0xffBFC0C0),
+    600: Color(0xffBFC0C0),
+    700: Color(0xffBFC0C0),
+    800: Color(0xffBFC0C0),
+    900: Color(0xffBFC0C0),
   });
 
   static const LightPrimaryColor = MaterialColor(0xffABBDD8, {

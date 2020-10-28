@@ -5,5 +5,5 @@ class GuestModel {
   String name;
   Image photo;
 
-  GuestModel(int id, String name);
+  GuestModel(this.id, this.name);
 }
