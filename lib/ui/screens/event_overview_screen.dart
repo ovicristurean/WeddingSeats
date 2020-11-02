@@ -22,9 +22,9 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
         });
       },
       (String newTitle) {
-        setState(() {
+        //setState(() {
           title = newTitle;
-        });
+        //});
       },
       child: Scaffold(
         appBar: AppBar(
@@ -43,6 +43,7 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
           ),
           child: BottomNavigationMenu(),
         ),
+        resizeToAvoidBottomPadding: false,
       ),
     );
   }

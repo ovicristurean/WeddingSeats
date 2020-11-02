@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
 import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
@@ -16,6 +15,9 @@ class ListOfGuests extends StatefulWidget {
 }
 
 class _ListOfGuestsState extends State<ListOfGuests> {
+  String editTextValue = "";
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     WeddingSeatsBloc weddingSeatsBloc =
@@ -35,22 +37,55 @@ class _ListOfGuestsState extends State<ListOfGuests> {
                     gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
-                        colors: [Themes.PrimaryColor, Themes.LightPrimaryColor])),
+                        colors: [
+                      Themes.PrimaryColor,
+                      Themes.LightPrimaryColor
+                    ])),
                 child: Column(
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: EventGuestsStatusView(),
+                    EventGuestsStatusView(),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                      child: Card(
+                        color: Themes.DarkPrimaryColor,
+                        elevation: 5,
+                        shadowColor: Colors.grey,
+                        child: Row(
+                          children: [
+                            Flexible(
+                              child: TextField(
+                                decoration: InputDecoration(
+                                    focusColor: Colors.red,
+                                    border: InputBorder.none,
+                                    hintText: "Search for a guest"),
+                                controller: searchController,
+                                onChanged: (String text) {},
+                              ),
+                            ),
+                            InkWell(
+                              child: Icon(Icons.search),
+                              onTap: () {
+                                // setState(() {
+                                searchController.text =
+                                    "Value in text field is " +
+                                        searchController.text;
+                                //});
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
-                    Expanded(
-                      flex: 7,
+                    Flexible(
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                         child: Container(
                           child: ListView.builder(
                             itemBuilder: (BuildContext context, int index) {
-                              return GuestView(snapshot.data[index].name,
-                                  snapshot.data[index].id.toString(), getColorForCell(index));
+                              return GuestView(
+                                  snapshot.data[index].name,
+                                  snapshot.data[index].id.toString(),
+                                  getColorForCell(index));
                             },
                             itemCount: snapshot.data.length,
                           ),
@@ -76,5 +111,11 @@ class _ListOfGuestsState extends State<ListOfGuests> {
       return Themes.AeroBLue;
     }
     return Themes.ColorAccent;
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
   }
 }

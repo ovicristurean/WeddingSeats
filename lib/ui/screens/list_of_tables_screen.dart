@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
 import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
 import 'package:weddings_seats/model/table_model.dart';
+import 'package:weddings_seats/ui/screens/configurable_table_layout.dart';
+import 'package:weddings_seats/ui/screens/table_arrangement_screen.dart';
 import 'package:weddings_seats/util/themes.dart';
 
 class SeatsList extends StatefulWidget {
@@ -28,14 +30,24 @@ class _SeatsListState extends State<SeatsList> {
               crossAxisCount: 2,
               // Generate 100 widgets that display their index in the List.
               children: List.generate(snapshot.data.length, (index) {
-                return Card(
-                  elevation: 5,
-                  shadowColor: Colors.grey,
-                  color: getColor(index),
-                  child: Center(
-                    child: Text(
-                      'Table nr. ${snapshot.data[index].number}',
-                      style: Theme.of(context).textTheme.headline5,
+                return InkWell(
+                  onTap: () {
+                    TableModel tableModel = snapshot.data[0];
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                TableArrangementScreen(tableModel)));
+                  },
+                  child: Card(
+                    elevation: 5,
+                    shadowColor: Colors.grey,
+                    color: getColor(index),
+                    child: Center(
+                      child: Text(
+                        'Table\n ${snapshot.data[index].number}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 );
@@ -46,6 +58,15 @@ class _SeatsListState extends State<SeatsList> {
               child: Center(
                 child: Icon(Icons.add),
               ),
+              elevation: 5,
+              onPressed: () {
+                TableModel tableModel = snapshot.data[0];
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ConfigurableTableLayout(10, 10)));
+              },
             ),
           );
         } else {

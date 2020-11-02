@@ -26,50 +26,41 @@ class _EventGuestsStatusViewState extends State<EventGuestsStatusView> {
           AsyncSnapshot<Map<GuestStatus, int>> snapshot) {
         if (snapshot.hasData) {
           return Padding(
-            padding: EdgeInsets.fromLTRB(10, 0, 10, 10),
+            padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
             child: Card(
               color: Themes.DarkPrimaryColor,
               elevation: 5,
               shadowColor: Colors.grey,
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text("Wedding guest status"),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10),
-                    ),
-                    Container(
-                      height: 50,
-                      child: CarouselSlider(
-                        items: [
-                          GuestStateView(snapshot.data[GuestStatus.PENDING],
-                              getNameFromStatus(GuestStatus.PENDING)),
-                          GuestStateView(snapshot.data[GuestStatus.CONFIRMED],
-                              getNameFromStatus(GuestStatus.CONFIRMED)),
-                          GuestStateView(
-                              snapshot.data[GuestStatus.NOT_YET_INVITED],
-                              getNameFromStatus(GuestStatus.NOT_YET_INVITED)),
-                        ],
-                        options: CarouselOptions(
-                            height: 100,
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.33,
-                            initialPage: 0,
-                            enableInfiniteScroll: true,
-                            reverse: false,
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                            scrollDirection: Axis.horizontal,
-                            onPageChanged: (index, changeReason) {
-                              InheritedListOfGuests.of(context)
-                                  .onPageChanged(mapFromIndex(index));
-                            }),
-                      ),
-                    ),
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text("Wedding guest status"),
+                  CarouselSlider(
+                    items: [
+                      GuestStateView(snapshot.data[GuestStatus.PENDING],
+                          getNameFromStatus(GuestStatus.PENDING)),
+                      GuestStateView(snapshot.data[GuestStatus.CONFIRMED],
+                          getNameFromStatus(GuestStatus.CONFIRMED)),
+                      GuestStateView(
+                          snapshot.data[GuestStatus.NOT_YET_INVITED],
+                          getNameFromStatus(GuestStatus.NOT_YET_INVITED)),
+                    ],
+                    options: CarouselOptions(
+                        height: 70,
+                        aspectRatio: 16 / 9,
+                        viewportFraction: 0.33,
+                        initialPage: 0,
+                        enableInfiniteScroll: true,
+                        reverse: false,
+                        autoPlayCurve: Curves.fastOutSlowIn,
+                        enlargeCenterPage: true,
+                        scrollDirection: Axis.horizontal,
+                        onPageChanged: (index, changeReason) {
+                          InheritedListOfGuests.of(context)
+                              .onPageChanged(mapFromIndex(index));
+                        }),
+                  ),
+                ],
               ),
             ),
           );
