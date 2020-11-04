@@ -1,4 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:weddings_seats/ui/views/countdown_timer_view.dart';
 import 'package:weddings_seats/util/themes.dart';
 
 class EventHomeScreen extends StatefulWidget {
@@ -15,8 +19,62 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [Themes.PrimaryColor, Themes.DarkPrimaryColor])),
-      child: Center(
-        child: Text("Event home screen"),
+      child: Container(
+        //epoch - 1622912400
+        child: Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            SvgPicture.asset(
+              "assets/wave.svg",
+              fit: BoxFit.fitWidth,
+              alignment: Alignment.topLeft,
+            ),
+            Positioned(
+              top: 100,
+              bottom: 20,
+              child: Container(
+                child: Card(
+                  color: Colors.white70,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(),
+                  shadowColor: Colors.grey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text("Nunta santimbreana"),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CountdownTimer(
+                          endTime: 1622912400000,
+                          widgetBuilder: (_, CurrentRemainingTime time) {
+                            /*return Text(
+                            'days: [ ${time.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]');*/
+                              return CountdownTimerView(time.days, time.hours, time.min, time.sec);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+            /*Positioned(
+              child: Text("Nunta santimbreana"),
+              top: 100,
+            ),
+            Positioned(
+              top: 200,
+              child: CountdownTimer(
+                endTime: 1622912400000,
+                widgetBuilder: (_, CurrentRemainingTime time) {
+                  return /*Text(
+                      'days: [ ${time.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]')*/
+                      CountdownTimerView();
+                },
+              ),
+            )*/
+          ],
+        ),
       ),
     );
   }
