@@ -3,8 +3,7 @@ import 'package:flutter/cupertino.dart';
 class InheritedRoomTableNumbers extends InheritedWidget {
   const InheritedRoomTableNumbers(
     this.enabledCells,
-    this.tableNumbers,
-    this.showSnackbar, {
+    this.onAllTableNumbersFilled, {
     Key key,
     @required Widget child,
   })  : assert(child != null),
@@ -15,9 +14,12 @@ class InheritedRoomTableNumbers extends InheritedWidget {
         .dependOnInheritedWidgetOfExactType<InheritedRoomTableNumbers>();
   }
 
-  final List<bool> enabledCells;
-  final List<int> tableNumbers;
-  final Function(String) showSnackbar;
+  final List<int> enabledCells;
+  final VoidCallback onAllTableNumbersFilled;
+
+  List<int> getEnabledCellsIndexes() {
+    return enabledCells.where((element) => element != -1).toList();
+  }
 
   @override
   bool updateShouldNotify(InheritedRoomTableNumbers old) => true;

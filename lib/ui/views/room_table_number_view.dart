@@ -17,9 +17,7 @@ class RoomTableNumberView extends StatefulWidget {
 class _RoomTableNumberViewState extends State<RoomTableNumberView> {
   @override
   Widget build(BuildContext context) {
-    List<bool> enabledCells =
-        InheritedRoomTableNumbers.of(context).enabledCells;
-    List<int> tableNumbers = InheritedRoomTableNumbers.of(context).tableNumbers;
+    List<int> enabledCells = InheritedRoomTableNumbers.of(context).enabledCells;
     return Container(
       child: GridView.count(
         crossAxisSpacing: 5,
@@ -31,15 +29,15 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
             child: ClipOval(
               child: InkWell(
                 child: Card(
-                  color: enabledCells[index]
+                  color: enabledCells[index] != -1
                       ? Themes.LightPrimaryColor
                       : Themes.DarkPrimaryColor,
-                  child: tableNumbers[index] == 0
+                  child: enabledCells[index] == -1
                       ? Center(child: Text(""))
-                      : Center(child: Text(tableNumbers[index].toString())),
+                      : Center(child: Text(enabledCells[index].toString())),
                 ),
                 onTap: () {
-                  if (enabledCells[index]) {
+                  if (enabledCells[index] != -1) {
                     setState(() {
                       showTableNumberDialog(index);
                     });
@@ -54,7 +52,6 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
   }
 
   void showTableNumberDialog(int selectedIndex) {
-    List<int> tableNumbers = InheritedRoomTableNumbers.of(context).tableNumbers;
     int selectedTable = 1;
     showGeneralDialog(
       context: context,
@@ -66,14 +63,22 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
           });
         }, () {
           setState(() {
-            if (tableNumbers.contains(selectedTable)) {
+            if (InheritedRoomTableNumbers.of(context)
+                .getEnabledCellsIndexes()
+                .contains(selectedTable)) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text("Table number already selected"),
                 ),
               );
             } else {
-              tableNumbers[selectedIndex] = selectedTable;
+              InheritedRoomTableNumbers.of(context)
+                  .enabledCells[selectedIndex] = selectedTable;
+              if (!InheritedRoomTableNumbers.of(context)
+                  .getEnabledCellsIndexes()
+                  .contains(0)) {
+                InheritedRoomTableNumbers.of(context).onAllTableNumbersFilled();
+              }
             }
             Navigator.pop(context);
           });

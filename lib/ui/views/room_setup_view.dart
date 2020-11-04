@@ -5,12 +5,12 @@ import 'package:weddings_seats/util/themes.dart';
 class RoomSetupView extends StatefulWidget {
   int width;
   int height;
-  List<bool> enabledCells;
+  List<int> enabledCells;
   int currentTableNumber = 0;
   _RoomSetupViewState state = _RoomSetupViewState();
 
   RoomSetupView(this.width, this.height) {
-    enabledCells = List.generate(width * height, (index) => false);
+    enabledCells = List.generate(width * height, (index) => -1);
   }
 
   @override
@@ -36,10 +36,12 @@ class _RoomSetupViewState extends State<RoomSetupView> {
         children: List.generate(widget.width * widget.height, (index) {
           return ClipOval(
             child: Container(
-              color: widget.enabledCells[index] ? Themes.LightPrimaryColor : Themes.DarkPrimaryColor,
+              color: (widget.enabledCells[index] != -1)
+                  ? Themes.LightPrimaryColor
+                  : Themes.DarkPrimaryColor,
               child: ListTile(onTap: () {
                 setState(() {
-                  widget.enabledCells[index] = !widget.enabledCells[index];
+                  widget.enabledCells[index] = widget.enabledCells[index] == -1 ? 0 : -1;
                 });
               }),
             ),
@@ -52,7 +54,7 @@ class _RoomSetupViewState extends State<RoomSetupView> {
   _resetCells() {
     setState(() {
       widget.enabledCells =
-          List.generate(widget.width * widget.height, (index) => false);
+          List.generate(widget.width * widget.height, (index) => -1);
     });
   }
 }
