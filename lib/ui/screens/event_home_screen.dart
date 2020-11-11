@@ -47,8 +47,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                         child: CountdownTimer(
                           endTime: 1622912400000,
                           widgetBuilder: (_, CurrentRemainingTime time) {
-                            /*return Text(
-                            'days: [ ${time.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]');*/
                               return CountdownTimerView(time.days, time.hours, time.min, time.sec);
                           },
                         ),
@@ -58,21 +56,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                 ),
               ),
             )
-            /*Positioned(
-              child: Text("Nunta santimbreana"),
-              top: 100,
-            ),
-            Positioned(
-              top: 200,
-              child: CountdownTimer(
-                endTime: 1622912400000,
-                widgetBuilder: (_, CurrentRemainingTime time) {
-                  return /*Text(
-                      'days: [ ${time.days} ], hours: [ ${time.hours} ], min: [ ${time.min} ], sec: [ ${time.sec} ]')*/
-                      CountdownTimerView();
-                },
-              ),
-            )*/
           ],
         ),
       ),
