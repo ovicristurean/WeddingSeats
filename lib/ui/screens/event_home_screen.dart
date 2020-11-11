@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:weddings_seats/ui/views/countdown_timer_view.dart';
+import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
+import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
+import 'package:weddings_seats/model/event_model.dart';
+import 'package:weddings_seats/ui/views/event_details_view.dart';
 import 'package:weddings_seats/util/themes.dart';
 
 class EventHomeScreen extends StatefulWidget {
@@ -13,6 +16,8 @@ class EventHomeScreen extends StatefulWidget {
 class _EventHomeScreenState extends State<EventHomeScreen> {
   @override
   Widget build(BuildContext context) {
+    WeddingSeatsBloc weddingSeatsBloc =
+        InheritedWeddingData.of(context).weddingSeatsBloc;
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -20,7 +25,6 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
               end: Alignment.bottomRight,
               colors: [Themes.PrimaryColor, Themes.DarkPrimaryColor])),
       child: Container(
-        //epoch - 1622912400
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
@@ -38,21 +42,19 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
                   elevation: 5,
                   shape: RoundedRectangleBorder(),
                   shadowColor: Colors.grey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text("Nunta santimbreana"),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CountdownTimer(
-                          endTime: 1622912400000,
-                          widgetBuilder: (_, CurrentRemainingTime time) {
-                              return CountdownTimerView(time.days, time.hours, time.min, time.sec);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: StreamBuilder(
+                      stream: weddingSeatsBloc.getEventDetailsStream(1),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(
+                            child: Text("Loading wedding data"),
+                          );
+                        }
+                        EventModel eventModel = weddingSeatsBloc
+                            .getEventModelFromSnapshot(snapshot.data.docs[0]);
+                        return EventDetailsView(eventModel);
+                      }),
                 ),
               ),
             )

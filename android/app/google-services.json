@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "994781943897",
+    "firebase_url": "https://wedding-seats-c2869.firebaseio.com",
+    "project_id": "wedding-seats-c2869",
+    "storage_bucket": "wedding-seats-c2869.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994781943897:android:33bd8f769e6a47661d3948",
+        "android_client_info": {
+          "package_name": "com.ovidiu.weddings_seats"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "994781943897-m6ll69gb8a0o0tq0hh7uinfjoguja3fp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBUu_wJFz7Hs3_MXRjPYKCa6IN6OcWsmfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "994781943897-m6ll69gb8a0o0tq0hh7uinfjoguja3fp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "994781943897-2j344u1uinsmp6bnto1enbts0fa594vl.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ovidiucristurean.weddingseats"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

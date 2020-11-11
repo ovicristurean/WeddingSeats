@@ -1,7 +1,8 @@
 class EventModel {
+  int id;
   String name;
-  String date;
+  num date;
   String place;
 
-  EventModel(name, date, place);
+  EventModel(this.name, this.date, this.place);
 }

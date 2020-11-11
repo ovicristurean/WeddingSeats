@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>994781943897-2cb2p21kvaememu0np6u2lh2t1n8clq6.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.994781943897-2cb2p21kvaememu0np6u2lh2t1n8clq6</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD90NTYVbQ-d-OQQ-mkJzUQQLPyfNSF2Z8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>994781943897</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ovidiu.weddingsSeats</string>
+	<key>PROJECT_ID</key>
+	<string>wedding-seats-c2869</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wedding-seats-c2869.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:994781943897:ios:139ac4b9814d44901d3948</string>
+	<key>DATABASE_URL</key>
+	<string>https://wedding-seats-c2869.firebaseio.com</string>
+</dict>
+</plist>

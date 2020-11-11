@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:weddings_seats/dto/guests_dto.dart';
 import 'package:weddings_seats/dto/seats_dto.dart';
 import 'package:weddings_seats/mapper/dto_to_model_mapper.dart';
+import 'package:weddings_seats/model/event_model.dart';
 import 'package:weddings_seats/model/guest_model.dart';
 import 'package:weddings_seats/model/table_model.dart';
+import 'package:weddings_seats/repository/event_details_data_source.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
 import 'package:weddings_seats/repository/tables_data_source.dart';
 
@@ -12,6 +15,7 @@ import 'bloc.dart';
 class WeddingSeatsBloc implements Bloc {
   GuestDataSource _guestDataSource;
   TablesDataSource _tablesDataSource;
+  EventDetailsDataSource _eventDetailsDataSource;
 
   final _guestDataSubject = PublishSubject<List<GuestModel>>();
   final _guestsCountSubject = PublishSubject<Map<GuestStatus, int>>();
@@ -24,7 +28,8 @@ class WeddingSeatsBloc implements Bloc {
 
   Observable<List<TableModel>> get tables => _tablesSubject.stream;
 
-  WeddingSeatsBloc(this._guestDataSource, this._tablesDataSource);
+  WeddingSeatsBloc(this._guestDataSource, this._tablesDataSource,
+      this._eventDetailsDataSource);
 
   void requestGuests(GuestStatus guestStatus) async {
     GuestsDto guestsDto = await _guestDataSource.requestGuests(guestStatus);
@@ -40,6 +45,14 @@ class WeddingSeatsBloc implements Bloc {
   void requestTables() async {
     TablesDto tablesDto = await _tablesDataSource.getTables();
     _tablesSubject.sink.add(DtoToModelMapper.fromTableDtos(tablesDto.tables));
+  }
+
+  Stream<QuerySnapshot> getEventDetailsStream(int eventId) {
+    return _eventDetailsDataSource.requestEventDetails(eventId).snapshots();
+  }
+
+  EventModel getEventModelFromSnapshot(QueryDocumentSnapshot snapshot) {
+    return _eventDetailsDataSource.getEventModelFromSnapshot(snapshot);
   }
 
   @override
