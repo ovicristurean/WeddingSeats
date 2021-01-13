@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -34,27 +36,31 @@ class _EventHomeScreenState extends State<EventHomeScreen> {
               alignment: Alignment.topLeft,
             ),
             Positioned(
-              top: 100,
-              bottom: 20,
-              child: Container(
-                child: Card(
-                  color: Colors.white70,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(),
-                  shadowColor: Colors.grey,
-                  child: StreamBuilder(
-                      stream: weddingSeatsBloc.getEventDetailsStream(1),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<QuerySnapshot> snapshot) {
-                        if (!snapshot.hasData) {
-                          return Center(
-                            child: Text("Loading wedding data"),
-                          );
-                        }
-                        EventModel eventModel = weddingSeatsBloc
-                            .getEventModelFromSnapshot(snapshot.data.docs[0]);
-                        return EventDetailsView(eventModel);
-                      }),
+              child: Center(
+                child: FractionallySizedBox(
+                  heightFactor: 0.75,
+                  widthFactor: 0.9,
+                  child: Container(
+                    child: Card(
+                      color: Colors.white70,
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(),
+                      shadowColor: Colors.grey,
+                      child: StreamBuilder(
+                          stream: weddingSeatsBloc.getEventDetailsStream(1),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: Text("Loading wedding data"),
+                              );
+                            }
+                            EventModel eventModel = weddingSeatsBloc
+                                .getEventModelFromSnapshot(snapshot.data.docs[0]);
+                            return EventDetailsView(eventModel);
+                          }),
+                    ),
+                  ),
                 ),
               ),
             )

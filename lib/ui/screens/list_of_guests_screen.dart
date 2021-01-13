@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
@@ -23,15 +24,16 @@ class _ListOfGuestsState extends State<ListOfGuests> {
   Widget build(BuildContext context) {
     WeddingSeatsBloc weddingSeatsBloc =
         InheritedWeddingData.of(context).weddingSeatsBloc;
-    weddingSeatsBloc.requestGuests(GuestStatus.PENDING);
+    weddingSeatsBloc.requestGuests();
     return InheritedListOfGuests(
       (GuestStatus status) {
-        weddingSeatsBloc.requestGuests(status);
+        weddingSeatsBloc.requestGuests();
       },
       child: StreamBuilder(
-        stream: weddingSeatsBloc.guestList,
-        builder: (context, AsyncSnapshot<List<GuestModel>> snapshot) {
+        stream: weddingSeatsBloc.requestGuests(),
+        builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
+            List<GuestModel> guests = weddingSeatsBloc.getGuestsFromSnapshot(snapshot.data);
             return SafeArea(
               child: Scaffold(
                 body: Container(
@@ -85,11 +87,12 @@ class _ListOfGuestsState extends State<ListOfGuests> {
                             child: ListView.builder(
                               itemBuilder: (BuildContext context, int index) {
                                 return GuestView(
-                                    snapshot.data[index].name,
-                                    snapshot.data[index].id.toString(),
+                                    guests[index].name,
+                                    guests[index].id.toString(),
+                                  //"name", "index",
                                     getColorForCell(index));
                               },
-                              itemCount: snapshot.data.length,
+                              itemCount: guests.length,
                             ),
                           ),
                         ),

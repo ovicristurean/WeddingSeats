@@ -5,6 +5,7 @@ import 'event_details_data_source.dart';
 
 class EventDetailsRepository implements EventDetailsDataSource {
   FirebaseFirestore _firestore;
+  String eventId;
 
   EventDetailsRepository(this._firestore);
 
@@ -15,7 +16,11 @@ class EventDetailsRepository implements EventDetailsDataSource {
 
   @override
   EventModel getEventModelFromSnapshot(QueryDocumentSnapshot snapshot) {
-    return EventModel(snapshot.data()["name"], snapshot.data()["date"],
-        snapshot.data()["place"]);
+    eventId = snapshot.id;
+    return EventModel(snapshot.id, snapshot.data()["name"],
+        snapshot.data()["date"], snapshot.data()["place"]);
   }
+
+  @override
+  String getEventId() => eventId;
 }

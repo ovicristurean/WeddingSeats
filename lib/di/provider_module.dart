@@ -8,7 +8,8 @@ import 'package:weddings_seats/repository/tables_data_source.dart';
 import 'package:weddings_seats/repository/tables_repository.dart';
 
 class ProviderModule {
-  static GuestDataSource getGuestDataSource() => GuestRepository();
+  static GuestDataSource getGuestDataSource() =>
+      GuestRepository(getFirestoreInstance());
 
   static TablesDataSource getTablesDataSource() => TablesRepository();
 

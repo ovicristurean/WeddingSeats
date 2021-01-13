@@ -1,4 +1,5 @@
-import 'package:weddings_seats/dto/guests_dto.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:weddings_seats/model/guest_model.dart';
 
 enum GuestStatus {
   NOT_YET_INVITED,
@@ -7,6 +8,6 @@ enum GuestStatus {
 }
 
 abstract class GuestDataSource {
-  Future<GuestsDto> requestGuests(GuestStatus status);
+  CollectionReference requestGuests(String eventId);
   Future<Map<GuestStatus, int>> requestNumberOfGuests();
 }
