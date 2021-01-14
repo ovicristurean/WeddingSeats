@@ -9,6 +9,6 @@ enum GuestStatus {
 
 abstract class GuestDataSource {
   CollectionReference requestGuests(String eventId);
-  Future<Map<GuestStatus, int>> requestNumberOfGuests();
+  Future<Map<GuestStatus, int>> requestNumberOfGuests(List<GuestModel> allGuests);
   void addGuest(GuestModel guestModel, String eventId);
 }

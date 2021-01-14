@@ -29,16 +29,15 @@ class _ListOfGuestsState extends State<ListOfGuests> {
     GuestStatus currentGuestStatus = GuestStatus.PENDING;
     return InheritedListOfGuests(
       (GuestStatus status) {
-        guestListView.updateItems(weddingSeatsBloc.getGuests(status));
+        currentGuestStatus = status;
+        weddingSeatsBloc.updateVisibleGuests(status);
       },
       child: StreamBuilder(
         stream: weddingSeatsBloc.requestGuests(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             weddingSeatsBloc.storeGuestsFromSnapshot(snapshot.data);
-            guestListView
-                .setItems(weddingSeatsBloc.getGuests(currentGuestStatus));
-            //var guests = weddingSeatsBloc.getGuests(currentGuestStatus);
+            //guestListView = GuestListView(weddingSeatsBloc.getGuests(currentGuestStatus));
             return SafeArea(
               child: Scaffold(
                 body: Container(
@@ -88,7 +87,18 @@ class _ListOfGuestsState extends State<ListOfGuests> {
                       Flexible(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: guestListView,
+                          child: StreamBuilder(
+                              stream: weddingSeatsBloc.guestList,
+                              builder: (context, snapshot) {
+                                weddingSeatsBloc.updateVisibleGuests(currentGuestStatus);
+                                if (snapshot.hasData) {
+                                  return GuestListView(snapshot.data);
+                                } else {
+                                  return Center(
+                                    child: Text("Updating the guests"),
+                                  );
+                                }
+                              }),
                         ),
                       ),
                     ],

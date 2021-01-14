@@ -15,11 +15,20 @@ class GuestRepository implements GuestDataSource {
   }
 
   @override
-  Future<Map<GuestStatus, int>> requestNumberOfGuests() async {
+  Future<Map<GuestStatus, int>> requestNumberOfGuests(
+      List<GuestModel> allGuests) async {
     return {
-      GuestStatus.NOT_YET_INVITED: MockUtils.getNotYetInvitedGuests().length,
-      GuestStatus.PENDING: MockUtils.getPendingGuests().length,
-      GuestStatus.CONFIRMED: MockUtils.getConfirmedGuests().length
+      GuestStatus.NOT_YET_INVITED: allGuests
+          .where(
+              (element) => element.guestStatus == GuestStatus.NOT_YET_INVITED)
+          .length,
+      GuestStatus.PENDING: allGuests
+          .where((element) => element.guestStatus == GuestStatus.PENDING)
+          .length,
+      GuestStatus.CONFIRMED: allGuests
+          .where(
+              (element) => element.guestStatus == GuestStatus.CONFIRMED)
+          .length
     };
   }
 

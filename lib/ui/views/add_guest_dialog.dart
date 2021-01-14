@@ -18,6 +18,8 @@ class _AddGuestDialogState extends State<AddGuestDialog> {
   String _lastName = "";
   GuestStatus _guestStatus = GuestStatus.PENDING;
   bool areInputsValid = true;
+  List<String> dropdownValues = ["Pending", "Confirmed", "Not yet invited"];
+  String dropdownValue = "Pending";
 
   @override
   Widget build(BuildContext context) {
@@ -82,20 +84,20 @@ class _AddGuestDialogState extends State<AddGuestDialog> {
                       children: [
                         Text("Guest status: "),
                         DropdownButton(
-                          items: [
-                            DropdownMenuItem(
-                              child: Text("Pending"),
-                            ),
-                            DropdownMenuItem(
-                              child: Text("Confirmed"),
-                            ),
-                            DropdownMenuItem(
-                              child: Text("Not yet invited"),
-                            ),
-                          ],
+                          value: dropdownValue,
+                          items: dropdownValues
+                              .map(
+                                (e) => DropdownMenuItem(
+                                  value: e,
+                                  child: Text(e),
+                                ),
+                              )
+                              .toList(),
                           onChanged: (value) {
-                            _guestStatus =
-                                ModelMapper.getStatusFromString(value);
+                            setState(() {
+                              _guestStatus = getStatusFromString(value);
+                              dropdownValue = value;
+                            });
                           },
                         ),
                       ],
@@ -129,7 +131,8 @@ class _AddGuestDialogState extends State<AddGuestDialog> {
         areInputsValid = false;
       });
     } else {
-      widget.onAddGuest(GuestModel(1, _firstName + _lastName, _guestStatus));
+      widget.onAddGuest(
+          GuestModel(1, _firstName + " " + _lastName, _guestStatus));
       Navigator.pop(context);
     }
   }

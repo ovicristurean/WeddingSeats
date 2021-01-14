@@ -32,6 +32,10 @@ class WeddingSeatsBloc implements Bloc {
   WeddingSeatsBloc(this._guestDataSource, this._tablesDataSource,
       this._eventDetailsDataSource);
 
+  void updateVisibleGuests(GuestStatus guestStatus) {
+    _guestDataSubject.sink.add(getGuests(guestStatus));
+  }
+
   Stream<QuerySnapshot> requestGuests() {
     String eventId = _eventDetailsDataSource.getEventId();
     return _guestDataSource.requestGuests(eventId).snapshots();
@@ -53,7 +57,7 @@ class WeddingSeatsBloc implements Bloc {
 
   void requestNumberOfGuests() async {
     Map<GuestStatus, int> numberOfGuests =
-        await _guestDataSource.requestNumberOfGuests();
+        await _guestDataSource.requestNumberOfGuests(_allGuests);
     _guestsCountSubject.sink.add(numberOfGuests);
   }
 
