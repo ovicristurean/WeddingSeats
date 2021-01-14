@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:weddings_seats/dto/seats_dto.dart';
 import 'package:weddings_seats/mapper/dto_to_model_mapper.dart';
@@ -8,7 +7,6 @@ import 'package:weddings_seats/model/guest_model.dart';
 import 'package:weddings_seats/model/table_model.dart';
 import 'package:weddings_seats/repository/event_details_data_source.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
-import 'package:weddings_seats/repository/mock_utils.dart';
 import 'package:weddings_seats/repository/tables_data_source.dart';
 
 import 'bloc.dart';
@@ -21,6 +19,8 @@ class WeddingSeatsBloc implements Bloc {
   final _guestDataSubject = PublishSubject<List<GuestModel>>();
   final _guestsCountSubject = PublishSubject<Map<GuestStatus, int>>();
   final _tablesSubject = PublishSubject<List<TableModel>>();
+
+  List<GuestModel> _allGuests = List();
 
   Observable<List<GuestModel>> get guestList => _guestDataSubject.stream;
 
@@ -35,13 +35,20 @@ class WeddingSeatsBloc implements Bloc {
   Stream<QuerySnapshot> requestGuests() {
     String eventId = _eventDetailsDataSource.getEventId();
     return _guestDataSource.requestGuests(eventId).snapshots();
-    //_guestDataSubject.sink.add(DtoToModelMapper.fromDto())
-    /*GuestsDto guestsDto;
-    _guestDataSubject.sink.add(DtoToModelMapper.fromDtos(guestsDto.guests));*/
   }
 
-  List<GuestModel> getGuestsFromSnapshot(QuerySnapshot snapshot) {
-    return DtoToModelMapper.fromSnapshot(snapshot);
+  void storeGuestsFromSnapshot(QuerySnapshot snapshot) {
+    _allGuests = DtoToModelMapper.fromSnapshot(snapshot);
+  }
+
+  List<GuestModel> getGuests(GuestStatus guestStatus) {
+    return _allGuests
+        .where((element) => element.guestStatus == guestStatus)
+        .toList();
+  }
+
+  void addGuest(GuestModel guestModel) {
+    _guestDataSource.addGuest(guestModel, _eventDetailsDataSource.getEventId());
   }
 
   void requestNumberOfGuests() async {

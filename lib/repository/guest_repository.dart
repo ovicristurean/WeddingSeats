@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:weddings_seats/mapper/model_mapper.dart';
+import 'package:weddings_seats/model/guest_model.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
 import 'package:weddings_seats/repository/mock_utils.dart';
 
@@ -10,14 +12,6 @@ class GuestRepository implements GuestDataSource {
   @override
   CollectionReference requestGuests(String eventId) {
     return _firestore.collection("events").doc(eventId).collection("guests");
-    /*switch (guestStatus) {
-      case GuestStatus.NOT_YET_INVITED:
-        return GuestsDto(MockUtils.getNotYetInvitedGuests());
-      case GuestStatus.PENDING:
-        return GuestsDto(MockUtils.getPendingGuests());
-      case GuestStatus.CONFIRMED:
-        return GuestsDto(MockUtils.getConfirmedGuests());
-    }*/
   }
 
   @override
@@ -27,5 +21,18 @@ class GuestRepository implements GuestDataSource {
       GuestStatus.PENDING: MockUtils.getPendingGuests().length,
       GuestStatus.CONFIRMED: MockUtils.getConfirmedGuests().length
     };
+  }
+
+  @override
+  void addGuest(GuestModel guestModel, String eventId) {
+    CollectionReference guestCollection =
+        _firestore.collection("events").doc(eventId).collection("guests");
+    guestCollection
+        .add({
+          'name': guestModel.name,
+          'status': ModelMapper.getStatusNameFromEnum(guestModel.guestStatus),
+        })
+        .then((value) => print("Guest Added"))
+        .catchError((error) => print("Failed to add guest: $error"));
   }
 }

@@ -8,7 +8,7 @@ import 'package:weddings_seats/repository/guest_data_source.dart';
 import 'package:weddings_seats/ui/screens/inherited_list_of_guests.dart';
 import 'package:weddings_seats/ui/views/add_guest_dialog.dart';
 import 'package:weddings_seats/ui/views/event_guests_status_view.dart';
-import 'package:weddings_seats/ui/views/guest_view.dart';
+import 'package:weddings_seats/ui/views/guest_list_view.dart';
 import 'package:weddings_seats/util/themes.dart';
 
 class ListOfGuests extends StatefulWidget {
@@ -25,15 +25,20 @@ class _ListOfGuestsState extends State<ListOfGuests> {
     WeddingSeatsBloc weddingSeatsBloc =
         InheritedWeddingData.of(context).weddingSeatsBloc;
     weddingSeatsBloc.requestGuests();
+    GuestListView guestListView = GuestListView(List());
+    GuestStatus currentGuestStatus = GuestStatus.PENDING;
     return InheritedListOfGuests(
       (GuestStatus status) {
-        weddingSeatsBloc.requestGuests();
+        guestListView.updateItems(weddingSeatsBloc.getGuests(status));
       },
       child: StreamBuilder(
         stream: weddingSeatsBloc.requestGuests(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            List<GuestModel> guests = weddingSeatsBloc.getGuestsFromSnapshot(snapshot.data);
+            weddingSeatsBloc.storeGuestsFromSnapshot(snapshot.data);
+            guestListView
+                .setItems(weddingSeatsBloc.getGuests(currentGuestStatus));
+            //var guests = weddingSeatsBloc.getGuests(currentGuestStatus);
             return SafeArea(
               child: Scaffold(
                 body: Container(
@@ -83,18 +88,7 @@ class _ListOfGuestsState extends State<ListOfGuests> {
                       Flexible(
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
-                          child: Container(
-                            child: ListView.builder(
-                              itemBuilder: (BuildContext context, int index) {
-                                return GuestView(
-                                    guests[index].name,
-                                    guests[index].id.toString(),
-                                  //"name", "index",
-                                    getColorForCell(index));
-                              },
-                              itemCount: guests.length,
-                            ),
-                          ),
+                          child: guestListView,
                         ),
                       ),
                     ],
@@ -112,7 +106,9 @@ class _ListOfGuestsState extends State<ListOfGuests> {
                         pageBuilder: (BuildContext buildContext,
                             Animation<double> animation,
                             Animation<double> secondaryAnimation) {
-                          return AddGuestDialog();
+                          return AddGuestDialog((guestModel) {
+                            weddingSeatsBloc.addGuest(guestModel);
+                          });
                         });
                   },
                 ),
@@ -126,13 +122,6 @@ class _ListOfGuestsState extends State<ListOfGuests> {
         },
       ),
     );
-  }
-
-  Color getColorForCell(int index) {
-    if (index % 2 == 0) {
-      return Themes.AeroBLue;
-    }
-    return Themes.ColorAccent;
   }
 
   @override
