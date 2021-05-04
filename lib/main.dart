@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weddings_seats/di/provider_module.dart';
-import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
 import 'package:weddings_seats/ui/screens/login_screen.dart';
 import 'package:weddings_seats/util/themes.dart';
 
@@ -14,8 +14,8 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return InheritedWeddingData(
-      ProviderModule.getWeddingSeatsBloc(),
+    return Provider(
+      create: (context) => ProviderModule.getWeddingSeatsBloc(),
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(

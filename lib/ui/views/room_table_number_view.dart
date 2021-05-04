@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:weddings_seats/ui/screens/inherited_room_table_numbers_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:weddings_seats/ui/provider_models/room_tables_model.dart';
 import 'package:weddings_seats/ui/views/table_number_dialog.dart';
 import 'package:weddings_seats/util/themes.dart';
 
 class RoomTableNumberView extends StatefulWidget {
-  int width;
-  int height;
+  final int width;
+  final int height;
 
   RoomTableNumberView(this.width, this.height);
 
@@ -17,7 +18,7 @@ class RoomTableNumberView extends StatefulWidget {
 class _RoomTableNumberViewState extends State<RoomTableNumberView> {
   @override
   Widget build(BuildContext context) {
-    List<int> enabledCells = InheritedRoomTableNumbers.of(context).enabledCells;
+    var roomTablesModel = context.read<RoomTablesModel>();
     return Container(
       child: GridView.count(
         crossAxisSpacing: 5,
@@ -29,17 +30,19 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
             child: ClipOval(
               child: InkWell(
                 child: Card(
-                  color: enabledCells[index] != -1
+                  color: roomTablesModel.enabledCells[index] != -1
                       ? Themes.LightPrimaryColor
                       : Themes.DarkPrimaryColor,
-                  child: enabledCells[index] == -1
+                  child: roomTablesModel.enabledCells[index] == -1
                       ? Center(child: Text(""))
-                      : Center(child: Text(enabledCells[index].toString())),
+                      : Center(
+                          child: Text(
+                              roomTablesModel.enabledCells[index].toString())),
                 ),
                 onTap: () {
-                  if (enabledCells[index] != -1) {
+                  if (roomTablesModel.enabledCells[index] != -1) {
                     setState(() {
-                      showTableNumberDialog(index);
+                      showTableNumberDialog(roomTablesModel, index);
                     });
                   }
                 },
@@ -51,7 +54,8 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
     );
   }
 
-  void showTableNumberDialog(int selectedIndex) {
+  void showTableNumberDialog(
+      RoomTablesModel roomTablesModel, int selectedIndex) {
     int selectedTable = 1;
     showGeneralDialog(
       context: context,
@@ -63,7 +67,7 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
           });
         }, () {
           setState(() {
-            if (InheritedRoomTableNumbers.of(context)
+            if (roomTablesModel
                 .getEnabledCellsIndexes()
                 .contains(selectedTable)) {
               Scaffold.of(context).showSnackBar(
@@ -72,12 +76,9 @@ class _RoomTableNumberViewState extends State<RoomTableNumberView> {
                 ),
               );
             } else {
-              InheritedRoomTableNumbers.of(context)
-                  .enabledCells[selectedIndex] = selectedTable;
-              if (!InheritedRoomTableNumbers.of(context)
-                  .getEnabledCellsIndexes()
-                  .contains(0)) {
-                InheritedRoomTableNumbers.of(context).onAllTableNumbersFilled();
+              roomTablesModel.enabledCells[selectedIndex] = selectedTable;
+              if (!roomTablesModel.getEnabledCellsIndexes().contains(0)) {
+                roomTablesModel.onAllTableNumbersFilled();
               }
             }
             Navigator.pop(context);

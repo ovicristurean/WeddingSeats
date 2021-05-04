@@ -43,7 +43,6 @@ class _EventOverviewScreenState extends State<EventOverviewScreen> {
           ),
           child: BottomNavigationMenu(),
         ),
-        resizeToAvoidBottomPadding: false,
       ),
     );
   }

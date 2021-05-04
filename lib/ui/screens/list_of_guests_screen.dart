@@ -2,14 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
-import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
-import 'package:weddings_seats/model/guest_model.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
 import 'package:weddings_seats/ui/screens/inherited_list_of_guests.dart';
 import 'package:weddings_seats/ui/views/add_guest_dialog.dart';
 import 'package:weddings_seats/ui/views/event_guests_status_view.dart';
 import 'package:weddings_seats/ui/views/guest_list_view.dart';
 import 'package:weddings_seats/util/themes.dart';
+import 'package:provider/provider.dart';
 
 class ListOfGuests extends StatefulWidget {
   @override
@@ -22,10 +21,8 @@ class _ListOfGuestsState extends State<ListOfGuests> {
 
   @override
   Widget build(BuildContext context) {
-    WeddingSeatsBloc weddingSeatsBloc =
-        InheritedWeddingData.of(context).weddingSeatsBloc;
+    var weddingSeatsBloc = context.read<WeddingSeatsBloc>();
     weddingSeatsBloc.requestGuests();
-    GuestListView guestListView = GuestListView(List());
     GuestStatus currentGuestStatus = GuestStatus.PENDING;
     return InheritedListOfGuests(
       (GuestStatus status) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:weddings_seats/ui/screens/inherited_room_table_numbers_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:weddings_seats/ui/provider_models/room_tables_model.dart';
 import 'package:weddings_seats/ui/views/confirm_table_numbers_view.dart';
 import 'package:weddings_seats/ui/views/room_table_number_view.dart';
 
@@ -21,13 +22,8 @@ class RoomTableNumbersScreen extends StatefulWidget {
 class _RoomTableNumbersScreenState extends State<RoomTableNumbersScreen> {
   @override
   Widget build(BuildContext context) {
-    return InheritedRoomTableNumbers(
-      widget.enabledCells,
-      () {
-        setState(() {
-          //widget.isConfirmEnabled = true;
-        });
-      },
+    return ChangeNotifierProvider(
+      create: (context) => RoomTablesModel(widget.enabledCells),
       child: Scaffold(
         body: SafeArea(
           child: Column(children: [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
-import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
 import 'package:weddings_seats/model/table_model.dart';
 import 'package:weddings_seats/ui/screens/configurable_table_layout.dart';
 import 'package:weddings_seats/ui/screens/table_arrangement_screen.dart';
@@ -14,8 +14,7 @@ class SeatsList extends StatefulWidget {
 class _SeatsListState extends State<SeatsList> {
   @override
   Widget build(BuildContext context) {
-    WeddingSeatsBloc weddingSeatsBloc =
-        InheritedWeddingData.of(context).weddingSeatsBloc;
+    var weddingSeatsBloc = context.read<WeddingSeatsBloc>();
     weddingSeatsBloc.requestTables();
     return SafeArea(
         child: StreamBuilder(

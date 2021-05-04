@@ -2,8 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
-import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
 import 'package:weddings_seats/repository/guest_data_source.dart';
 import 'package:weddings_seats/ui/screens/inherited_list_of_guests.dart';
 import 'package:weddings_seats/ui/views/guest_state_view.dart';
@@ -17,8 +17,7 @@ class EventGuestsStatusView extends StatefulWidget {
 class _EventGuestsStatusViewState extends State<EventGuestsStatusView> {
   @override
   Widget build(BuildContext context) {
-    WeddingSeatsBloc weddingSeatsBloc =
-        InheritedWeddingData.of(context).weddingSeatsBloc;
+    var weddingSeatsBloc = context.read<WeddingSeatsBloc>();
     weddingSeatsBloc.requestNumberOfGuests();
     return StreamBuilder(
       stream: weddingSeatsBloc.guestsCount,
@@ -41,8 +40,7 @@ class _EventGuestsStatusViewState extends State<EventGuestsStatusView> {
                           getNameFromStatus(GuestStatus.PENDING)),
                       GuestStateView(snapshot.data[GuestStatus.CONFIRMED],
                           getNameFromStatus(GuestStatus.CONFIRMED)),
-                      GuestStateView(
-                          snapshot.data[GuestStatus.NOT_YET_INVITED],
+                      GuestStateView(snapshot.data[GuestStatus.NOT_YET_INVITED],
                           getNameFromStatus(GuestStatus.NOT_YET_INVITED)),
                     ],
                     options: CarouselOptions(

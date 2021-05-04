@@ -1,14 +1,13 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weddings_seats/bloc/wedding_seats_bloc.dart';
-import 'package:weddings_seats/inherited/inherited_wedding_data.dart';
 import 'package:weddings_seats/model/event_model.dart';
 import 'package:weddings_seats/ui/views/event_details_view.dart';
 import 'package:weddings_seats/util/themes.dart';
+import 'package:provider/provider.dart';
 
 class EventHomeScreen extends StatefulWidget {
   @override
@@ -18,8 +17,7 @@ class EventHomeScreen extends StatefulWidget {
 class _EventHomeScreenState extends State<EventHomeScreen> {
   @override
   Widget build(BuildContext context) {
-    WeddingSeatsBloc weddingSeatsBloc =
-        InheritedWeddingData.of(context).weddingSeatsBloc;
+    var weddingSeatsBloc = context.read<WeddingSeatsBloc>();
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
